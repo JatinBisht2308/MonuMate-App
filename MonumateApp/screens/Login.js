@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -5,8 +6,8 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  SafeAreaView,
 } from "react-native";
-import React, { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebaseConfig";
 
@@ -40,17 +41,19 @@ export default function Login({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Image
-        source={require("../assets/logomonumate.png")}
-        style={styles.smallLogo}
-      />
-      <Image
-        source={require("../assets/textlogo.png")}
-        style={styles.textLogo}
-      />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("../assets/logomonumate.png")}
+          style={styles.smallLogo}
+        />
+        <Image
+          source={require("../assets/textlogo.png")}
+          style={styles.textLogo}
+        />
+      </View>
       <TextInput
-        style={styles.input}
+        style={[styles.input,styles.shadowProp]}
         placeholder="Email"
         onChangeText={(text) => {
           setEmail(text);
@@ -58,7 +61,7 @@ export default function Login({ navigation }) {
         value={email}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input,styles.shadowProp]}
         placeholder="Password"
         secureTextEntry={true}
         onChangeText={(text) => {
@@ -66,7 +69,7 @@ export default function Login({ navigation }) {
         }}
         value={password}
       />
-      <TouchableOpacity style={styles.btn} onPress={handleLogin}>
+      <TouchableOpacity style={[styles.btn,styles.shadowProp]} onPress={handleLogin}>
         <Text style={styles.button}>Login</Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -75,46 +78,56 @@ export default function Login({ navigation }) {
           navigation.navigate("Signup");
         }}
       >
-        <Text style={styles.button}>Sign Up</Text>
+        <Text style={[styles.button,styles.shadowProp]}>Sign Up</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff", 
+  },
+  logoContainer: {
+    alignItems: "center",
+    marginBottom: 0,
+    marginTop: -30,
+  },
   smallLogo: {
     marginBottom: 20,
   },
   textLogo: {
+
     marginBottom: 20,
   },
   input: {
-    width: 200,
-    height: 10,
-    flex: 0.1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 2,
-    paddingBottom: 2,
-    borderWidth: 2,
-    borderColor: "#807A7A",
-    marginBottom: 15,
-    fontSize: 15,
+    width: "50%",
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
     borderRadius: 8,
+    marginBottom: 10,
+    padding: 10,
   },
   btn: {
-    width: 200,
     backgroundColor: "#5669FF",
-    marginBottom: 15,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    alignItems: "center",
     borderRadius: 8,
+    padding: 10,
+    width: "50%",
+    marginBottom: 10,
+    alignItems: "center",
   },
   button: {
-    fontSize: 15,
-    color: "#FFFFFF",
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  shadowProp:{
+    shadowOffset: {width: 15, height: 30},  
+    shadowColor: '#171717',  
+    shadowOpacity: 1,  
+    shadowRadius: 10,  
   },
 });

@@ -19,7 +19,7 @@ export default function QRScreen({route}) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   center: {
     textAlign: "center",

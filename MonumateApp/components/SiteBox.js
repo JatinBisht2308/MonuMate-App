@@ -1,3 +1,81 @@
+// import React from "react";
+// import { View, Text, StyleSheet, Image, TouchableOpacity,SafeAreaView } from "react-native";
+
+// export default function ChatBox({
+//   name,
+//   state,
+//   photo,
+//   desc,
+//   cost,
+//   navigation,
+// }) {
+//   return (
+//     <TouchableOpacity
+//       style={[styles.container, styles.shadowProp]}
+//       onPress={() => {
+//         navigation.navigate("Order", {
+//           name: name,
+//         });
+//       }}
+//     >
+//       <Image
+//         source={{ uri: photo }}
+//         style={{ width: "40%", height: 150, resizeMode: "cover",borderTopLeftRadius: 16, borderBottomLeftRadius: 16 }}
+//       />
+//       <SafeAreaView
+//         style={{
+//           display: "flex",
+//           flexDirection: "column",
+//           justifyContent: "space-evenly",
+//           justifyContent: "center",
+//           width: "60%",
+//           marginLeft: 10,
+//         }}
+//       >
+//         <Text style={styles.text}>{name}</Text>
+//         <Text style={styles.textSub}>{state}</Text>
+//         <Text style={styles.desc}>{desc}</Text>
+//         <Text style={styles.price}>{cost}/-</Text>
+//       </SafeAreaView>
+//     </TouchableOpacity>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     display: "flex",
+//     flexDirection: "row",
+//     background: "#FFFFFF",
+//     marginTop: 30,
+//     borderWidth: 2,
+//     borderRadius: 16,
+//   },
+//   text: {
+//     fontSize: 25,
+//     fontWeight: "bold",
+//     marginBottom: 3,
+//   },
+//   textSub: {
+//     color: "grey",
+//     marginBottom: 3,
+//   },
+//   price: {
+//     fontWeight: "bold",
+//     color: "#5669FF",
+//   },
+//   timeStyle: {
+//     fontSize: 10,
+//   },
+//   shadowProp: {
+//     shadowOffset: { width: -2, height: 4 },
+//     shadowColor: "#171717",
+//     shadowOpacity: 0.2,
+//     shadowRadius: 3,
+//   },
+//   desc: {
+//     marginBottom: 3,
+//   },
+// });
 import React from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 
@@ -18,24 +96,17 @@ export default function ChatBox({
         });
       }}
     >
-      <Image
-        source={{ uri: photo }}
-        style={{ width: "40%", height: 150, resizeMode: "cover" }}
-      />
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-evenly",
-          justifyContent: "center",
-          width: "60%",
-          marginLeft: 10,
-        }}
-      >
-        <Text style={styles.text}>{name}</Text>
-        <Text style={styles.textSub}>{state}</Text>
+      <View style={styles.imageContainer}>
+        <Image
+          source={{ uri: photo }}
+          style={styles.image}
+        />
+      </View>
+      <View style={styles.detailsContainer}>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.state}>{state}</Text>
         <Text style={styles.desc}>{desc}</Text>
-        <Text style={styles.price}>{cost}/-</Text>
+        <Text style={styles.cost}>{cost}/-</Text>
       </View>
     </TouchableOpacity>
   );
@@ -43,38 +114,50 @@ export default function ChatBox({
 
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
     flexDirection: "row",
-    background: "#FFFFFF",
-    bordeRadius: 16,
-    marginTop: 30,
-    borderColor: "black",
+    backgroundColor: "#FFFFFF",
+    marginTop: 20,
     borderWidth: 2,
-    borderRadius: 2,
+    borderRadius: 16,
+    overflow: "hidden",
+    elevation: 4,
   },
-  text: {
-    fontSize: 25,
+  imageContainer: {
+    flex: 0.8,
+    backgroundColor: "#000000",
+  },
+  image: {
+    flex: 1,
+    width:"100%",
+    height: "100%",
+    resizeMode: "cover",
+    borderTopLeftRadius: 16,
+    borderBottomLeftRadius: 16,
+  },
+  detailsContainer: {
+    flex: 1,
+    padding: 10,
+  },
+  name: {
+    fontSize: 20,
     fontWeight: "bold",
-    marginBottom: 3,
+    marginBottom: 5,
   },
-  textSub: {
+  state: {
     color: "grey",
-    marginBottom: 3,
+    marginBottom: 5,
   },
-  price: {
+  cost: {
     fontWeight: "bold",
     color: "#5669FF",
   },
-  timeStyle: {
-    fontSize: 10,
+  desc: {
+    marginBottom: 5,
   },
   shadowProp: {
-    shadowOffset: { width: -2, height: 4 },
-    shadowColor: "#171717",
+    shadowOffset: { width: 0, height: 2 },
+    shadowColor: "#000",
     shadowOpacity: 0.2,
-    shadowRadius: 3,
-  },
-  desc: {
-    marginBottom: 3,
+    shadowRadius: 4,
   },
 });

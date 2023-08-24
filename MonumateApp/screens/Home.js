@@ -21,6 +21,7 @@ export default function Home({ navigation }) {
         const querySnapshot = await getDocs(collection(db, "sites"));
         querySnapshot.forEach((doc) => {
           temp.push(doc.data());
+          console.log(temp[temp.length -1].cost);
         });
         setSites(temp);
       } catch (error) {
@@ -72,6 +73,9 @@ const styles = StyleSheet.create({
   },
   monuList: {
     width: "90%",
+  },
+  monuCard:{
+    backgroundColor: "#FFF",
   },
   btn: {
     width: "90%",

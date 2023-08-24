@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -5,17 +6,16 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  SafeAreaView,
 } from "react-native";
-import React, { useState, useEffect } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseConfig";
-import { db } from "../firebaseConfig";
+import { auth, db } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 
 export default function Signup({ navigation }) {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -27,33 +27,34 @@ export default function Signup({ navigation }) {
     return unsubscribe;
   }, []);
 
-  const handleSignup = () => {
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(async (res) => {
-        const user = res.user;
-        await setDoc(doc(db, "users", user.uid), {
-          name: name,
-          email: email,
-          guard: false,
-        });
-        navigation.navigate("Home");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+  const handleSignup = async () => {
+    try {
+      const res = await createUserWithEmailAndPassword(auth, email, password);
+      const user = res.user;
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        email: email,
+        guard: false,
       });
+      navigation.navigate("Home");
+    } catch (error) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    }
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Image
-        source={require("../assets/logomonumate.png")}
-        style={styles.smallLogo}
-      />
-      <Image
-        source={require("../assets/textlogo.png")}
-        style={styles.textLogo}
-      />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("../assets/logomonumate.png")}
+          style={styles.smallLogo}
+        />
+        <Image
+          source={require("../assets/textlogo.png")}
+          style={styles.textLogo}
+        />
+      </View>
       <TextInput
         style={styles.input}
         placeholder="Name"
@@ -90,30 +91,39 @@ export default function Signup({ navigation }) {
       >
         <Text style={styles.button}>Log In</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  smallLogo: {
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+  },
+  logoContainer: {
+    alignItems: "center",
     marginBottom: 20,
   },
+  smallLogo: {
+    // Add styles for your logo image
+    marginBottom: 15,
+  },
   textLogo: {
-    marginBottom: 20,
+    // Add styles for your text logo image
+    marginBottom: 5,
   },
   input: {
     width: 200,
-    height: 10,
-    flex: 0.1,
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 2,
-    paddingBottom: 2,
-    borderWidth: 2,
-    borderColor: "#807A7A",
-    marginBottom: 15,
-    fontSize: 15,
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
     borderRadius: 8,
+    marginBottom: 15,
+    paddingLeft: 10,
+    paddingRight: 20,
+    fontSize: 15,
   },
   btn: {
     width: 200,
